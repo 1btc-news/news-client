@@ -1,7 +1,20 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { tanstackStart } from '@tanstack/react-start/plugin/vite';
+import viteReact from '@vitejs/plugin-react';
+import viteTsConfigPaths from 'vite-tsconfig-paths';
+import tailwindcss from '@tailwindcss/vite';
+import { cloudflare } from '@cloudflare/vite-plugin';
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
+const config = defineConfig({
+  plugins: [
+    cloudflare({ viteEnvironment: { name: 'ssr' } }),
+    viteTsConfigPaths({
+      projects: ['./tsconfig.json'],
+    }),
+    tailwindcss(),
+    tanstackStart(),
+    viteReact(),
+  ],
 });
+
+export default config;

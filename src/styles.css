@@ -1,0 +1,160 @@
+@import 'tailwindcss';
+
+/* Custom fonts */
+@font-face {
+  font-family: 'Really Sans Large';
+  src: url('/fonts/ReallySansLarge-Regular.woff2') format('woff2'),
+    url('/fonts/ReallySansLarge-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Really Sans Large';
+  src: url('/fonts/ReallySansLarge-Bold.woff2') format('woff2'),
+    url('/fonts/ReallySansLarge-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Really Sans Small';
+  src: url('/fonts/ReallySansSmall-Regular.woff2') format('woff2'),
+    url('/fonts/ReallySansSmall-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Really Sans Small';
+  src: url('/fonts/ReallySansSmall-Bold.woff2') format('woff2'),
+    url('/fonts/ReallySansSmall-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Brand color variables */
+@theme {
+  --color-brand-orange: #f27400;
+  --color-brand-dark: #1a1919;
+  --color-brand-darkcyan: #1c5263;
+  --color-brand-gray: #8395a7;
+  --color-brand-darkgray: #333333;
+  --color-bitcoin-orange: #f7931a;
+}
+
+/* Base styles */
+html {
+  @apply bg-brand-dark text-white;
+}
+
+body {
+  @apply m-0 antialiased;
+  font-family: 'Really Sans Small', 'Open Sans', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Really Sans Large', 'Open Sans', sans-serif;
+}
+
+/* Link styles */
+a {
+  @apply text-brand-orange hover:text-bitcoin-orange transition-colors;
+}
+
+/* Button styles */
+.btn-primary {
+  @apply px-6 py-2 bg-brand-orange text-white rounded-lg hover:bg-bitcoin-orange transition-colors;
+}
+
+.btn-outline {
+  @apply px-4 py-2 border border-brand-orange text-brand-orange rounded-lg hover:bg-brand-orange hover:text-white transition-colors;
+}
+
+/* Markdown content styles */
+.prose-news {
+  @apply text-gray-200 leading-relaxed;
+}
+
+.prose-news h1 {
+  @apply text-3xl font-bold text-white mb-4 mt-8 first:mt-0;
+}
+
+.prose-news h2 {
+  @apply text-2xl font-bold text-white mb-3 mt-6;
+}
+
+.prose-news h3 {
+  @apply text-xl font-bold text-white mb-2 mt-4;
+}
+
+.prose-news p {
+  @apply mb-4;
+}
+
+.prose-news a {
+  @apply text-brand-orange hover:text-bitcoin-orange underline;
+}
+
+.prose-news ul,
+.prose-news ol {
+  @apply mb-4 pl-6;
+}
+
+.prose-news li {
+  @apply mb-2;
+}
+
+.prose-news ul {
+  @apply list-disc;
+}
+
+.prose-news ol {
+  @apply list-decimal;
+}
+
+.prose-news blockquote {
+  @apply border-l-4 border-brand-orange pl-4 italic text-gray-400 my-4;
+}
+
+.prose-news code {
+  @apply bg-brand-darkgray px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+.prose-news pre {
+  @apply bg-brand-darkgray p-4 rounded-lg overflow-x-auto mb-4;
+}
+
+.prose-news pre code {
+  @apply bg-transparent p-0;
+}
+
+.prose-news img {
+  @apply max-w-full h-auto rounded-lg my-4;
+}
+
+.prose-news hr {
+  @apply border-brand-darkgray my-8;
+}
+
+.prose-news table {
+  @apply w-full border-collapse mb-4;
+}
+
+.prose-news th,
+.prose-news td {
+  @apply border border-brand-darkgray px-4 py-2 text-left;
+}
+
+.prose-news th {
+  @apply bg-brand-darkgray font-bold;
+}
