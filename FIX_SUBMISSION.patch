@@ -1,0 +1,66 @@
+```python
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Stage 1: Developer Power Map
+def get_developer_power_map():
+    # Sample data for demonstration purposes
+    data = {
+        'Rank': [1, 2, 3, 4, 5],
+        'Name': ['John', 'Alice', 'Bob', 'Charlie', 'David'],
+        'Current Affiliation': ['Chaincode Labs', 'Spiral/Block', 'Brink', 'Marathon Digital', 'BitMEX'],
+        'Role': ['Maintainer', 'Bitcoin Improvement Proposal Author', 'Reviewer', 'Researcher', 'Funder'],
+        'Key Soft Fork Contributions': ['Taproot', 'Check Lock Time Verify', 'Check Sequence Verify', 'Segregated Witness', 'Pay-to-Script-Hash'],
+        'Rationale for Ranking': ['Recent contributions to Taproot', 'Leadership in Spiral/Block', 'Key reviewer for Bitcoin Improvement Proposals', 'Research on post-quantum cryptography', 'Funding for Bitcoin development']
+    }
+    df = pd.DataFrame(data)
+    return df
+
+# Stage 2: Sentiment Mining
+def get_sentiment_mining():
+    # Sample data for demonstration purposes
+    data = {
+        'Name': ['John', 'Alice', 'Bob', 'Charlie', 'David'],
+        'Direct Quotes': ['Quantum risk is a major concern', 'Post-quantum cryptography is essential', 'I am skeptical about the urgency', 'We need to start preparing now', 'I am not sure about the timeline'],
+        'Summary of Position': ['Concerned about quantum risk', 'Believes in post-quantum cryptography', 'Skeptical about urgency', 'Proactive about preparation', 'Uncertain about timeline'],
+        'Recency of Most Recent Statement': ['March 2026', 'April 2026', 'February 2026', 'January 2026', 'December 2025'],
+        'Confidence Level in Attribution': ['High', 'Medium', 'Low', 'High', 'Medium']
+    }
+    df = pd.DataFrame(data)
+    return df
+
+# Stage 3: Quantum Urgency Scorecard
+def get_quantum_urgency_scorecard():
+    # Sample data for demonstration purposes
+    data = {
+        'Rank': [1, 2, 3, 4, 5],
+        'Name': ['John', 'Alice', 'Bob', 'Charlie', 'David'],
+        'Current Affiliation': ['Chaincode Labs', 'Spiral/Block', 'Brink', 'Marathon Digital', 'BitMEX'],
+        'Quantum Urgency Score': [5, 4, 3, 2, 1],
+        'One-line Summary of Position': ['Urgent about quantum risk', 'Proactive about post-quantum cryptography', 'Cautious about urgency', 'Aware but dismissive', 'No known view'],
+        'Key Source': ['Bitcoin development mailing list', 'Academic paper', 'Conference talk', 'Reddit post', 'No source found']
+    }
+    df = pd.DataFrame(data)
+    return df
+
+# Stage 4: Data Visualization
+def visualize_data(df_power_map, df_sentiment_mining, df_quantum_urgency_scorecard):
+    # Create a bubble scatter plot
+    plt.figure(figsize=(10, 6))
+    plt.scatter(df_power_map['Rank'], df_quantum_urgency_scorecard['Quantum Urgency Score'], s=df_sentiment_mining['Recency of Most Recent Statement'].apply(lambda x: 100 if x == 'April 2026' else 50))
+    plt.xlabel('Influence Rank')
+    plt.ylabel('Quantum Urgency Score')
+    plt.title('Developer Power Map and Quantum Urgency Scorecard')
+    plt.show()
+
+# Main function
+def main():
+    df_power_map = get_developer_power_map()
+    df_sentiment_mining = get_sentiment_mining()
+    df_quantum_urgency_scorecard = get_quantum_urgency_scorecard()
+    visualize_data(df_power_map, df_sentiment_mining, df_quantum_urgency_scorecard)
+
+if __name__ == '__main__':
+    main()
+```
