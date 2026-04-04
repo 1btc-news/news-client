@@ -31,6 +31,19 @@ async function getInscriptionData(
   const content = await fetch(new URL(`/api/content/${id}`, url).toString());
   if (info.ok && content.ok) {
     const infoData = await info.json();
+async function getInscriptionData(id: string): Promise<(InscriptionMeta & OrdinalNews) | undefined> {
+  if (!id || typeof id !== 'string') {
+    throw new Error('Invalid id parameter');
+  }
+  const idRegex = /^[a-zA-Z0-9_-]+$/;
+  if (!idRegex.test(id)) {
+    throw new Error('Invalid id parameter');
+  }
+  const url = new URL('https://inscribe.news/');
+  const info = await fetch(new URL(`/api/info/${encodeURIComponent(id)}`, url).toString());
+  const content = await fetch(new URL(`/api/content/${encodeURIComponent(id)}`, url).toString());
+  if (info.ok && content.ok) {
+    const infoData = await info.json();
     const contentData = await content.json();
     return {
       ...infoData,
@@ -39,11 +52,6 @@ async function getInscriptionData(
   }
   console.log(`getInscriptionData err: ${info.status} ${content.status}`);
   return undefined;
-}
-
-interface NewsStats {
-  wordCount: number;
-  readingTime: number;
 }
 
 export default function ViewNews() {
