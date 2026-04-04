@@ -31,24 +31,36 @@ async function getInscriptionData(
   const content = await fetch(new URL(`/api/content/${id}`, url).toString());
   if (info.ok && content.ok) {
     const infoData = await info.json();
-    const contentData = await content.json();
+async function getInscriptionData(id: string): Promise<(InscriptionMeta & OrdinalNews) | undefined> {
+  if (!id) {
+    console.error('Inscription ID is required');
+    return undefined;
+  }
+  const url = new URL('https://inscribe.news/');
+  try {
+    const infoResponse = await fetch(new URL(`/api/info/${id}`, url).toString());
+    if (!infoResponse.ok) {
+      throw new Error(`Failed to fetch inscription info: ${infoResponse.status}`);
+    }
+    const contentResponse = await fetch(new URL(`/api/content/${id}`, url).toString());
+    if (!contentResponse.ok) {
+      throw new Error(`Failed to fetch inscription content: ${contentResponse.status}`);
+    }
+    const infoData = await infoResponse.json();
+    const contentData = await contentResponse.json();
+    if (!infoData || !contentData) {
+      console.error('Invalid response data');
+      return undefined;
+    }
     return {
       ...infoData,
       ...contentData,
     };
+  } catch (error) {
+    console.error(`Error fetching inscription data: ${error.message}`);
+    return undefined;
   }
-  console.log(`getInscriptionData err: ${info.status} ${content.status}`);
-  return undefined;
 }
-
-interface NewsStats {
-  wordCount: number;
-  readingTime: number;
-}
-
-export default function ViewNews() {
-  const query = useQuery();
-  const id = query.get('id');
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<(InscriptionMeta & OrdinalNews) | undefined>(undefined);
   const [news, setNews] = useState<OrdinalNews | undefined>(undefined);
