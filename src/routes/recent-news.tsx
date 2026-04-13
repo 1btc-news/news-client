@@ -205,6 +205,11 @@ export default function RecentNews() {
         maxW={1200}
         pb={6}
         direction={['column', 'row']}
+        position="sticky"
+        top={0}
+        zIndex={10}
+        bg="gray.900"
+        pt={4}
       >
         <Flex
           alignItems="flex-start"

@@ -8,6 +8,7 @@ import {
   Code,
   FormControl,
   FormLabel,
+  FormErrorMessage,
   Heading,
   Input,
   Link as ChakraLink,
@@ -30,6 +31,15 @@ import { Link } from 'react-router-dom';
 import copy from 'copy-to-clipboard';
 import BitcoinIcon from '../components/bitcoin-icon';
 
+function isValidUrl(urlString: string): boolean {
+  try {
+    const url = new URL(urlString);
+    return url.protocol === 'http:' || url.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
 // credit for the form template goes to:
 // https://chakra-templates.dev/templates/forms/authentication/simpleSignupCard
 export default function PostNews() {
@@ -38,6 +48,7 @@ export default function PostNews() {
   const [body, setBody] = useControllableState({ defaultValue: '' });
   const [author, setAuthor] = useControllableState({ defaultValue: '' });
   const [finalPost, setFinalPost] = useControllableState({ defaultValue: '' });
+  const [urlError, setUrlError] = useControllableState({ defaultValue: '' });
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
@@ -73,7 +84,13 @@ export default function PostNews() {
   };
 
   const generatePost = () => {
-    if (title.length === 0) {
+    // Trim all form data before processing (#4)
+    const trimmedTitle = title.trim();
+    const trimmedUrl = url.trim();
+    const trimmedBody = body.trim();
+    const trimmedAuthor = author.trim();
+
+    if (trimmedTitle.length === 0) {
       toast({
         title: 'Title is required',
         status: 'error',
@@ -83,8 +100,7 @@ export default function PostNews() {
       });
       return;
     }
-
-    if (url.length === 0 && body.length === 0) {
+    if (trimmedUrl.length === 0 && trimmedBody.length === 0) {
       toast({
         title: 'One of a URL or Body is required',
         status: 'error',
@@ -94,18 +110,29 @@ export default function PostNews() {
       });
       return;
     }
-
+    // Validate URL if provided (#5)
+    if (trimmedUrl.length > 0 && !isValidUrl(trimmedUrl)) {
+      setUrlError('Please enter a valid URL (must start with http:// or https://)');
+      toast({
+        title: 'Invalid URL',
+        description: 'URL must start with http:// or https://',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        variant: 'left-accent',
+      });
+      return;
+    }
+    setUrlError('');
     const postObject = {
       p: 'ons',
       op: 'post',
-      title,
-      ...(url.length > 0 && { url }),
-      ...(author.length > 0 && { author }),
-      ...(body.length > 0 && { body }),
+      title: trimmedTitle,
+      ...(trimmedUrl.length > 0 && { url: trimmedUrl }),
+      ...(trimmedAuthor.length > 0 && { author: trimmedAuthor }),
+      ...(trimmedBody.length > 0 && { body: trimmedBody }),
     };
-
     setFinalPost(JSON.stringify(postObject, null, 2));
-
     onOpen();
   };
 
@@ -116,83 +143,60 @@ export default function PostNews() {
         flexDir="column"
         alignItems="center"
         justifyContent="center"
-        textAlign="left"
-        w="100%"
-        minH="100vh"
-        py={8}
-        px={4}
+        px={[4, 4, 0]}
       >
-        <Stack
-          align={'center'}
-          mb={8}
-        >
-          <Heading
-            fontSize={'4xl'}
-            textAlign={'center'}
-          >
-            Inscribe the News
-          </Heading>
-          <Text
-            fontSize={'lg'}
-            color={'gray.600'}
-          >
-            on Bitcoin, forever <BitcoinIcon />
-          </Text>
-        </Stack>
+        <BitcoinIcon boxSize={[24, 24, 36]} />
         <Box
-          rounded={'3xl'}
+          rounded="xl"
           bg={useColorModeValue('white', 'gray.700')}
-          boxShadow={'dark-lg'}
+          boxShadow="lg"
           p={8}
-          mb={8}
-          mx="auto"
-          w="100%"
           maxW="xl"
+          w="100%"
         >
           <Stack spacing={4}>
-            <FormControl
-              id="title"
-              isRequired
-            >
-              <FormLabel fontSize={['sm', 'sm', 'xl']}>Title</FormLabel>
+            <Heading>Inscribe the News on Bitcoin, forever</Heading>
+            <FormControl id="title" isRequired>
+              <FormLabel>Title</FormLabel>
               <Input
                 type="text"
                 placeholder="The main headline"
                 fontSize={['xs', 'sm', 'xl']}
-                onChange={e => setTitle(e.target.value.trim())}
+                onChange={e => setTitle(e.target.value)}
               />
             </FormControl>
-            <FormControl id="url">
-              <FormLabel fontSize={['sm', 'sm', 'xl']}>URL</FormLabel>
+            <FormControl id="url" isInvalid={urlError.length > 0}>
+              <FormLabel>URL</FormLabel>
               <Input
                 type="url"
                 placeholder="Add a link (optional)"
                 fontSize={['xs', 'sm', 'xl']}
-                onChange={e => setUrl(e.target.value.trim())}
+                onChange={e => {
+                  setUrl(e.target.value);
+                  if (urlError) setUrlError('');
+                }}
               />
+              {urlError && <FormErrorMessage>{urlError}</FormErrorMessage>}
             </FormControl>
             <FormControl id="author">
-              <FormLabel fontSize={['sm', 'sm', 'xl']}>Author</FormLabel>
+              <FormLabel>Author</FormLabel>
               <Input
                 type="text"
                 placeholder="Add an author (optional)"
                 fontSize={['xs', 'sm', 'xl']}
-                onChange={e => setAuthor(e.target.value.trim())}
+                onChange={e => setAuthor(e.target.value)}
               />
             </FormControl>
-            <FormControl>
-              <FormLabel fontSize={['sm', 'sm', 'xl']}>Body</FormLabel>
+            <FormControl id="body">
+              <FormLabel>Body</FormLabel>
               <Textarea
                 resize="vertical"
                 placeholder="Plain text or markdown (optional)"
                 fontSize={['xs', 'sm', 'xl']}
-                onChange={e => setBody(e.target.value.trim())}
+                onChange={e => setBody(e.target.value)}
               />
             </FormControl>
-            <Stack
-              spacing={10}
-              pt={2}
-            >
+            <Stack spacing={10} pt={2}>
               <Button
                 loadingText="Submitting"
                 size="lg"
@@ -242,8 +246,8 @@ export default function PostNews() {
                 mb={6}
               >
                 <Text>
-                  You can upload an inscription using ord or through a service that supports text
-                  inscriptions.
+                  You can upload an inscription using ord or through a service
+                  that supports text inscriptions.
                 </Text>
                 <Button
                   mx={3}
@@ -324,8 +328,9 @@ export default function PostNews() {
                 </Button>
               </ButtonGroup>
               <Text mb={6}>
-                Use the "plain text" inscription type if you're using a service, or make sure the
-                file's type is `.txt` if using the Ordinals CLI.
+                Use the "plain text" inscription type if you're using a service,
+                or make sure the file's type is `.txt` if using the Ordinals
+                CLI.
               </Text>
               <Text>
                 See the{' '}
