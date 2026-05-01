@@ -6,12 +6,15 @@ import {
   Image,
   Link as ChakraLink,
   Text,
+  Badge,
+  HStack,
 } from '@chakra-ui/react';
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Footer from '../components/footer';
 import { InscriptionMeta, OrdinalNews } from '../../lib/api-types';
 import { countWordsAndEstimateReadingTime } from '../helpers';
+import { getNewsTrustSignals } from '../../lib/news-provenance';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
@@ -53,6 +56,7 @@ export default function ViewNews() {
   const [data, setData] = useState<(InscriptionMeta & OrdinalNews) | undefined>(undefined);
   const [news, setNews] = useState<OrdinalNews | undefined>(undefined);
   const [stats, setStats] = useState<NewsStats | undefined>(undefined);
+  const trustSignals = data && news ? getNewsTrustSignals({ ...data, ...news }) : [];
 
   useEffect(() => {
     if (id) {
@@ -204,6 +208,17 @@ export default function ViewNews() {
         {stats &&
           ` • ${stats.wordCount.toLocaleString()} words • ${stats.readingTime.toLocaleString()} min read`}
       </Text>
+      <HStack flexWrap="wrap" mt={3}>
+        {trustSignals.map(signal => (
+          <Badge
+            key={signal.label}
+            colorScheme={signal.status === 'ok' ? 'green' : 'yellow'}
+            variant="subtle"
+          >
+            {signal.label}
+          </Badge>
+        ))}
+      </HStack>
       {news.body && (
         <>
           <Divider

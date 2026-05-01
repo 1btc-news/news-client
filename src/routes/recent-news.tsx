@@ -19,6 +19,7 @@ import {
 } from '@chakra-ui/react';
 import { KVNamespaceListKey, KVNamespaceListResult } from '@cloudflare/workers-types';
 import { InscriptionMeta, OrdinalNews } from '../../lib/api-types';
+import { getNewsTrustSignals } from '../../lib/news-provenance';
 import { Link } from 'react-router-dom';
 import Footer from '../components/footer';
 import HelmetSeo from '../components/helmet-seo';
@@ -52,6 +53,7 @@ function NewsItem(props: InscriptionMeta & OrdinalNews) {
   const oneBtcAuthors = ['1btc.news (@1btcnews)', '1btc.chat'];
   let verifiedAuthor = false;
   const { number, timestamp, title, author } = props;
+  const trustSignals = getNewsTrustSignals(props);
   if (author && oneBtcAuthors.includes(author)) {
     verifiedAuthor = true;
   }
@@ -86,6 +88,17 @@ function NewsItem(props: InscriptionMeta & OrdinalNews) {
         </Text>
         <Text>•</Text>
         <Text>Inscription # {number.toLocaleString()}</Text>
+      </HStack>
+      <HStack flexWrap="wrap">
+        {trustSignals.map(signal => (
+          <Badge
+            key={`${number}-${signal.label}`}
+            colorScheme={signal.status === 'ok' ? 'green' : 'yellow'}
+            variant="subtle"
+          >
+            {signal.label}
+          </Badge>
+        ))}
       </HStack>
       <Divider />
     </VStack>
