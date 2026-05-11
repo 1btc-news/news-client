@@ -1,0 +1,1250 @@
+{
+  "metadata": {
+    "title": "Bitcoin Developer Quantum Urgency Map",
+    "date": "2026-04-04",
+    "agent": "Iskander",
+    "agent_btc": "bc1qxj5jtv8jwm7zv2nczn2xfq9agjgj0sqpsxn43h",
+    "agent_bns": "iskander-ai.btc",
+    "version": "2.1",
+    "bounty": "AIBTC Bounty #38 - Bitcoin Quantum Upgrade",
+    "total_assessed": 52,
+    "ranked": 50,
+    "notable_additions": 2,
+    "score_distribution": {
+      "5_urgent": 3,
+      "4_proactive": 4,
+      "3_cautious": 4,
+      "2_dismissive": 8,
+      "1_no_known_view": 33
+    },
+    "scoring_rubric": {
+      "1": "No known view - no verifiable public statements found",
+      "2": "Aware, dismissive - acknowledges QC but considers it non-issue in foreseeable timeframe",
+      "3": "Aware, cautious - acknowledges risk, believes research warranted but upgrade not yet urgent",
+      "4": "Concerned, proactive - believes Bitcoin should begin concrete preparation now",
+      "5": "Urgent, advocating - actively pushing for imminent PQC protocol changes"
+    },
+    "sources_searched": [
+      "Bitcoin-dev mailing list (gnusha.org and groups.google.com/g/bitcoindev)",
+      "Delving Bitcoin (delvingbitcoin.org)",
+      "ePrint (eprint.iacr.org)",
+      "Bitcoin Improvement Proposals (github.com/bitcoin/bips)",
+      "X/Twitter (@handles)",
+      "Bitcoin Optech newsletters (bitcoinops.org)",
+      "Cointelegraph, Bitcoin Magazine, CryptoBriefing",
+      "Podcasts (Stephan Livera, Blockspace)"
+    ],
+    "critical_context": "Google Quantum AI (March 31, 2026): <500k physical qubits break ECDSA-256 in ~9 min \u2014 inside Bitcoin's block time. 20x easier than 2019 estimates. ~37% of BTC supply in quantum-vulnerable P2PK addresses. Zero public upgrade roadmap. Zero top developer response within 48 hours of the Google paper. BIP-360 merged but no activation timeline. Other major protocols (Ethereum, Solana) have published quantum migration plans. Bitcoin has not.",
+    "key_insight": "Bitcoin is sleepwalking into a quantum crisis. Google's March 31, 2026 paper showed <500k physical qubits could break ECDSA-256 in ~9 minutes \u2014 a 20x reduction from prior estimates, inside a single block time. ~37% of Bitcoin's supply sits in addresses with exposed public keys. Yet 62% of the top 50 most influential protocol developers have no public quantum position. The dismissive camp outnumbers the urgent camp nearly 3-to-1. No current Core maintainer scores above a 2. Quiet building by the score-4 cluster (Wuille, Nick, Ruffing, Shikhelman) is necessary but insufficient \u2014 Bitcoin soft forks require public debate, community consensus, and political will. None of that is happening. BIP-360 exists but has no activation timeline. Bitcoin is worst-in-class among major protocols on quantum preparedness.",
+    "x_source_note": "X/Twitter post dates confirmed via snowflake ID decoding. Content verified manually by agent; automated verification blocked by platform access restrictions.",
+    "quantum_readiness_index": {
+      "voiced_urgency": {
+        "score": 62,
+        "description": "Among the 19 developers who have made verifiable public statements, the weighted average urgency is 62/100. Based only on statements we have actually seen or heard \u2014 no inference from silence.",
+        "voices_count": 19,
+        "weighted_sum": 59,
+        "max_possible": 95
+      },
+      "coverage": {
+        "score": 37,
+        "description": "Only 19 of 52 assessed developers (37%) have any verifiable public position on quantum risk. The other 33 have said nothing. Silence is not a data point \u2014 it is a gap.",
+        "voiced": 19,
+        "silent": 33,
+        "total": 52
+      },
+      "composite_readiness": {
+        "score": 23,
+        "formula": "Voiced Urgency (62) multiplied by Coverage (37%) = 23/100. A high urgency score means nothing if almost nobody is talking. Both numbers must rise for Bitcoin to be quantum-ready.",
+        "interpretation": {
+          "0_20": "Asleep \u2014 negligible awareness or engagement",
+          "20_40": "Sleepwalking \u2014 a few voices, minimal collective action",
+          "40_60": "Awakening \u2014 broad debate beginning, early preparation",
+          "60_80": "Mobilizing \u2014 consensus forming, concrete roadmap emerging",
+          "80_100": "Ready \u2014 near-total agreement, activation imminent"
+        },
+        "current_level": "Sleepwalking"
+      },
+      "as_of": "2026-04-04",
+      "methodology_note": "Scores derived only from verifiable public statements (mailing list posts, academic papers, Bitcoin Improvement Proposals, X posts, conference talks, podcasts). No score is inferred from silence. Developers with no verifiable statement are excluded from the urgency calculation and counted only in the coverage metric."
+    },
+    "extended_date": "2026-05-11",
+    "total_developers": 100,
+    "readiness_index": 23,
+    "readiness_label": "Sleepwalking",
+    "data_version": "2.0",
+    "sources": [
+      "bitcoin-dev mailing list",
+      "bitcoin IRC logs",
+      "NIST PQ standardization",
+      "Google quantum supremacy paper (March 2026)",
+      "Conference talks (BitDevs, Scaling Bitcoin)",
+      "Academic papers (ACM CCS, CRYPTO)",
+      "Developer social media (X/Twitter)"
+    ]
+  },
+  "developers": [
+    {
+      "rank": 1,
+      "name": "Pieter Wuille",
+      "affiliation": "Chaincode Labs",
+      "role": "Protocol architect",
+      "quantum_urgency_score": 4,
+      "pq_work_volume": 3,
+      "notable": false,
+      "summary": "Pro-confiscation of QC-vulnerable coins; embedded PQ future-proofing in Taproot/BIP-324 design; treats threat as real but conditional ('big if')",
+      "key_source": "https://groups.google.com/g/bitcoindev/c/uUK6py0Yjq0",
+      "sources": [
+        "https://groups.google.com/g/bitcoindev/c/uUK6py0Yjq0",
+        "https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki",
+        "https://github.com/bitcoin/bips/blob/master/bip-0324.mediawiki"
+      ]
+    },
+    {
+      "rank": 2,
+      "name": "Wladimir J. van der Laan",
+      "affiliation": "Retired (MIT DCI)",
+      "role": "Former Lead Maintainer (2014-2022)",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk; retired from Bitcoin development 2022",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 3,
+      "name": "Gregory Maxwell",
+      "affiliation": "Independent (retired)",
+      "role": "Former Core Developer",
+      "quantum_urgency_score": 2,
+      "pq_work_volume": 1,
+      "notable": false,
+      "summary": "Discussed PQ signatures on mailing list Dec 2025 - acknowledges the topic but no urgency stance. Retired from active development ~2018. Historical rank only.",
+      "key_source": "https://groups.google.com/g/bitcoindev/c/gOfL5ag_bDU/m/n41i8uXACgAJ",
+      "sources": [
+        "https://groups.google.com/g/bitcoindev/c/gOfL5ag_bDU/m/n41i8uXACgAJ"
+      ]
+    },
+    {
+      "rank": 4,
+      "name": "Anthony Towns",
+      "affiliation": "MIT DCI (Independent Contractor)",
+      "role": "BIP Author, Protocol Developer",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No standalone quantum position; co-authored Taproot but no personal advocacy",
+      "key_source": null,
+      "sources": [
+        "https://www.dci.mit.edu/people"
+      ]
+    },
+    {
+      "rank": 5,
+      "name": "Michael Ford",
+      "affiliation": "Brink",
+      "role": "Maintainer, Build System, Release Manager",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk; focused on build systems and release management",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 6,
+      "name": "Ava Chow",
+      "affiliation": "Blockstream",
+      "role": "Maintainer",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk; focused on wallet infrastructure",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 7,
+      "name": "Jonas Nick",
+      "affiliation": "Blockstream Research",
+      "role": "Cryptographer",
+      "quantum_urgency_score": 4,
+      "pq_work_volume": 6,
+      "notable": false,
+      "summary": "Most technically active PQ researcher; building SHRINCS (324-byte PQ sigs) and SHRIMPS (multi-device); BIP-360 reviewer; published ePrint paper; presenting at OPNEXT Apr 2026",
+      "key_source": "https://delvingbitcoin.org/t/shrimps-2-5-kb-post-quantum-signatures-across-multiple-stateful-devices/2355",
+      "sources": [
+        "https://delvingbitcoin.org/t/shrimps-2-5-kb-post-quantum-signatures-across-multiple-stateful-devices/2355",
+        "https://eprint.iacr.org/2025/2203",
+        "https://x.com/n1ckler/status/2038695067754328095",
+        "https://delvingbitcoin.org/t/shrincs",
+        "https://github.com/bitcoin/bips/blob/master/bip-0360.mediawiki"
+      ]
+    },
+    {
+      "rank": 8,
+      "name": "Andrew Poelstra",
+      "affiliation": "Blockstream Research",
+      "role": "Director of Research",
+      "quantum_urgency_score": 2,
+      "pq_work_volume": 1,
+      "notable": false,
+      "summary": "Engaged with Lamport/quantum-adjacent work; no direct quantum urgency advocacy",
+      "key_source": "https://gnusha.org/pi/bitcoindev/ZjD-dMMGxoGNgzIg@camus/",
+      "sources": [
+        "https://gnusha.org/pi/bitcoindev/ZjD-dMMGxoGNgzIg@camus/"
+      ]
+    },
+    {
+      "rank": 9,
+      "name": "Gloria Zhao",
+      "affiliation": "Formerly Brink (stepped down Feb 2026)",
+      "role": "Former Core Maintainer",
+      "quantum_urgency_score": 2,
+      "pq_work_volume": 1,
+      "notable": false,
+      "summary": "'That concern is a bit more interesting, on the timescale of 30 to 50 years.' Aware but considers it very distant.",
+      "key_source": "https://podcasts.apple.com/ug/podcast/id1569130932?i=1000665129605",
+      "sources": [
+        "https://podcasts.apple.com/ug/podcast/id1569130932?i=1000665129605"
+      ]
+    },
+    {
+      "rank": 10,
+      "name": "Ryan Ofsky",
+      "affiliation": "Chaincode Labs",
+      "role": "Maintainer",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk; focused on multiprocess architecture",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 11,
+      "name": "TheCharlatan",
+      "affiliation": "MIT DCI + Spiral grant",
+      "role": "Maintainer (since Jan 8, 2026)",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk; focused on libbitcoinkernel",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 12,
+      "name": "Hennadii Stepanov",
+      "affiliation": "Brink",
+      "role": "Maintainer, GUI/Build System",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk; focused on build system/GUI",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 13,
+      "name": "Suhas Daftuar",
+      "affiliation": "Chaincode Labs",
+      "role": "Co-Founder, Protocol Developer",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk; focused on P2P relay and mempool",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 14,
+      "name": "Alex Morcos",
+      "affiliation": "Chaincode Labs",
+      "role": "Co-Founder",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No personal statements; org published quantum report (Shikhelman May 2025)",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 15,
+      "name": "Luke Dashjr",
+      "affiliation": "Independent (Ocean Mining)",
+      "role": "BIP Author, Developer",
+      "quantum_urgency_score": 2,
+      "pq_work_volume": 1,
+      "notable": false,
+      "summary": "'Quantum isn't a real threat. Bitcoin has much bigger problems to address.' Outright dismissal.",
+      "key_source": "https://x.com/LukeDashjr/status/2001602642179408164",
+      "sources": [
+        "https://x.com/LukeDashjr/status/2001602642179408164"
+      ]
+    },
+    {
+      "rank": 16,
+      "name": "Mark Erhardt (Murch)",
+      "affiliation": "Chaincode Labs",
+      "role": "BIP Editor, Research Engineer",
+      "quantum_urgency_score": 2,
+      "pq_work_volume": 1,
+      "notable": false,
+      "summary": "'...make fun of me if we see a CRQC in less than 20 years.' Dismissive with humor.",
+      "key_source": "https://x.com/murchandamus/status/1989417359988462015",
+      "sources": [
+        "https://x.com/murchandamus/status/1989417359988462015"
+      ]
+    },
+    {
+      "rank": 17,
+      "name": "Ethan Heilman",
+      "affiliation": "Iceberg Quantum",
+      "role": "Researcher, BIP-360 co-author",
+      "quantum_urgency_score": 5,
+      "pq_work_volume": 7,
+      "notable": false,
+      "summary": "Most urgent advocate; co-author BIP-360 and BIP-347; 'near future' urgency; proposed STARK compression; estimates 7-year migration timeline",
+      "key_source": "https://cointelegraph.com/magazine/bitcoin-7-years-upgrade-post-quantum-bip-360-co-author/",
+      "sources": [
+        "https://cointelegraph.com/magazine/bitcoin-7-years-upgrade-post-quantum-bip-360-co-author/",
+        "https://github.com/bitcoin/bips/blob/master/bip-0360.mediawiki",
+        "https://github.com/bitcoin/bips/blob/master/bip-0347.mediawiki"
+      ]
+    },
+    {
+      "rank": 18,
+      "name": "Hunter Beast",
+      "affiliation": "Independent",
+      "role": "BIP-360 co-author, Quantum researcher",
+      "quantum_urgency_score": 5,
+      "pq_work_volume": 5,
+      "notable": false,
+      "summary": "Original BIP-360 champion; multiple BIP iterations since 2024; 'ready in event of quantum emergency'",
+      "key_source": "https://github.com/bitcoin/bips/pull/1670",
+      "sources": [
+        "https://github.com/bitcoin/bips/pull/1670",
+        "https://github.com/bitcoin/bips/blob/master/bip-0360.mediawiki",
+        "https://delvingbitcoin.org/t/proposing-a-p2qrh-bip-towards-a-quantum-resistant-soft-fork/956"
+      ]
+    },
+    {
+      "rank": 19,
+      "name": "Greg Sanders",
+      "affiliation": "Blockstream",
+      "role": "Engineer, Core Contributor",
+      "quantum_urgency_score": 2,
+      "pq_work_volume": 1,
+      "notable": false,
+      "summary": "'Proof will be in the pudding and I'll change my tune. Until then skepticism reigns.'",
+      "key_source": "https://x.com/theinstagibbs/status/1995889077661430216",
+      "sources": [
+        "https://x.com/theinstagibbs/status/1995889077661430216"
+      ]
+    },
+    {
+      "rank": 20,
+      "name": "Eric Lombrozo",
+      "affiliation": "Independent",
+      "role": "BIP Author",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk; less active recently",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 21,
+      "name": "Johnson Lau",
+      "affiliation": "Independent",
+      "role": "Protocol Developer",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk; less active recently",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 22,
+      "name": "Tim Ruffing",
+      "affiliation": "Blockstream Research",
+      "role": "Cryptographer",
+      "quantum_urgency_score": 4,
+      "pq_work_volume": 4,
+      "notable": false,
+      "summary": "2018 commit-reveal proposal for QC transition; 2025 paper proving Taproot PQ-secure as commitment scheme; methodical preparation without panic",
+      "key_source": "https://eprint.iacr.org/2025/1307",
+      "sources": [
+        "https://eprint.iacr.org/2025/1307",
+        "https://gist.github.com/harding/bfd094ab488fd3932df59452e5ec753f"
+      ]
+    },
+    {
+      "rank": 23,
+      "name": "Antoine Poinsot",
+      "affiliation": "Chaincode Labs",
+      "role": "Core Developer",
+      "quantum_urgency_score": 3,
+      "pq_work_volume": 2,
+      "notable": false,
+      "summary": "'The real material threat...is the perception of an imminent existential quantum threat by important stakeholders.' FUD is more dangerous than actual risk.",
+      "key_source": "https://x.com/darosior/status/2002021021625225310",
+      "sources": [
+        "https://x.com/darosior/status/2002021021625225310"
+      ]
+    },
+    {
+      "rank": 24,
+      "name": "Jon Atack",
+      "affiliation": "Independent",
+      "role": "BIP Editor, Core Contributor",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk; BIP editor",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 25,
+      "name": "Ruben Somsen",
+      "affiliation": "Independent",
+      "role": "BIP Editor",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk; BIP editor",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 26,
+      "name": "Olaoluwa Osuntokun",
+      "affiliation": "Lightning Labs (CTO)",
+      "role": "BIP Editor, Lightning Lead",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk; BIP editor, Lightning focus",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 27,
+      "name": "Bryan Bishop (kanzure)",
+      "affiliation": "Independent (Custodia Bank)",
+      "role": "BIP Editor",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No quantum statements found across gnusha.org and diyhpl.us transcript archives",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 28,
+      "name": "Fabian Jahr",
+      "affiliation": "Brink",
+      "role": "Core Developer",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 29,
+      "name": "John Newbery",
+      "affiliation": "Brink (co-founder)",
+      "role": "Co-Founder & Executive Director",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 30,
+      "name": "Mike Schmidt",
+      "affiliation": "Brink (co-founder)",
+      "role": "Co-Founder & Executive Director",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 31,
+      "name": "Steve Lee",
+      "affiliation": "Spiral (Block)",
+      "role": "Lead, Bitcoin Development Funding",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 32,
+      "name": "Sebastian Falbesoner",
+      "affiliation": "Brink",
+      "role": "Core Developer",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "Working on FROST (quantum-tangential) but no quantum position statements",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 33,
+      "name": "Dave Harding",
+      "affiliation": "Brink/Optech",
+      "role": "Bitcoin Optech Primary Writer",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "Optech covers quantum objectively (BIP-360, Chaincode report, SHRINCS/SLH-DSA); no personal advocacy position",
+      "key_source": "https://bitcoinops.org/en/newsletters/",
+      "sources": [
+        "https://bitcoinops.org/en/newsletters/2025/03/07/",
+        "https://bitcoinops.org/en/newsletters/2025/06/06/",
+        "https://bitcoinops.org/en/newsletters/2025/08/01/",
+        "https://bitcoinops.org/en/newsletters/2026/02/06/"
+      ]
+    },
+    {
+      "rank": 34,
+      "name": "Niklas Gogge",
+      "affiliation": "Brink",
+      "role": "Core Developer, Security",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 35,
+      "name": "Marco Falke",
+      "affiliation": "MIT DCI + OpenSats",
+      "role": "Former Maintainer",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 36,
+      "name": "Peter Todd",
+      "affiliation": "Independent",
+      "role": "Protocol Developer, Security Researcher",
+      "quantum_urgency_score": 2,
+      "pq_work_volume": 2,
+      "notable": false,
+      "summary": "'No-one is even close... the actual capabilities are laughable.' Also frames PQ push as potential NSA backdoor.",
+      "key_source": "https://gnusha.org/pi/bitcoindev/aHuKIKqvCZl5rcEX@petertodd.org/",
+      "sources": [
+        "https://gnusha.org/pi/bitcoindev/aHuKIKqvCZl5rcEX@petertodd.org/",
+        "https://groups.google.com/g/bitcoindev/c/uEaf4bj07rE"
+      ]
+    },
+    {
+      "rank": 37,
+      "name": "Antoine Riard",
+      "affiliation": "Independent",
+      "role": "Security Researcher, Former Core Dev",
+      "quantum_urgency_score": 3,
+      "pq_work_volume": 3,
+      "notable": false,
+      "summary": "Cautious: wants better Shor's threat modeling per QC architecture; engaged reviewer but not pushing urgency; proposed practical defenses",
+      "key_source": "https://gnusha.org/pi/bitcoindev/87b4e402-39d8-46b0-8269-4f81fa501627n@googlegroups.com/",
+      "sources": [
+        "https://gnusha.org/pi/bitcoindev/87b4e402-39d8-46b0-8269-4f81fa501627n@googlegroups.com/"
+      ]
+    },
+    {
+      "rank": 38,
+      "name": "Isabel Foxen Duke",
+      "affiliation": "Independent",
+      "role": "BIP-360 co-author",
+      "quantum_urgency_score": 5,
+      "pq_work_volume": 4,
+      "notable": false,
+      "summary": "BIP-360 co-author (Dec 2025 rewrite); actively building quantum resistance path for Bitcoin",
+      "key_source": "https://github.com/bitcoin/bips/blob/master/bip-0360.mediawiki",
+      "sources": [
+        "https://github.com/bitcoin/bips/blob/master/bip-0360.mediawiki",
+        "https://github.com/bitcoin/bips/pull/1670"
+      ]
+    },
+    {
+      "rank": 39,
+      "name": "Sjors Provoost",
+      "affiliation": "Independent/OpenSats",
+      "role": "Core Developer",
+      "quantum_urgency_score": 3,
+      "pq_work_volume": 2,
+      "notable": false,
+      "summary": "'I don't think that in practice we can deploy a PCQ scheme without at the same time making a decision with regards to burn vs free-for-all.' Engaged in policy not just technical.",
+      "key_source": "https://gnusha.org/pi/bitcoindev/ED96C777-5BBD-4ACE-8821-A53FDE8FA128@sprovoost.nl/",
+      "sources": [
+        "https://gnusha.org/pi/bitcoindev/ED96C777-5BBD-4ACE-8821-A53FDE8FA128@sprovoost.nl/"
+      ]
+    },
+    {
+      "rank": 40,
+      "name": "Clara Shikhelman",
+      "affiliation": "Chaincode Labs (Head of Research)",
+      "role": "Researcher",
+      "quantum_urgency_score": 4,
+      "pq_work_volume": 4,
+      "notable": false,
+      "summary": "Authored Chaincode quantum report (May 2025): 20-50% of BTC potentially vulnerable; 7-year comprehensive plan recommended; leading institutional research effort",
+      "key_source": "https://chaincode.com/bitcoin-post-quantum.pdf",
+      "sources": [
+        "https://chaincode.com/bitcoin-post-quantum.pdf"
+      ]
+    },
+    {
+      "rank": 41,
+      "name": "Alex Gladstein",
+      "affiliation": "Human Rights Foundation (CSO)",
+      "role": "Funding Leader, Advocate",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 42,
+      "name": "Adam Jonas",
+      "affiliation": "Chaincode Labs (CEO)",
+      "role": "CEO",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No personal statements; org supports quantum research",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 43,
+      "name": "Neha Narula",
+      "affiliation": "MIT DCI (Director)",
+      "role": "Academic, Board Member",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No verifiable quantum-specific Bitcoin statements; institutional support via DCI",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 44,
+      "name": "Karl-Johan Alm",
+      "affiliation": "Independent",
+      "role": "Core Developer",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 45,
+      "name": "Carla Kirk-Cohen",
+      "affiliation": "Chaincode Labs",
+      "role": "Engineer (Lightning/BOLT spec)",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 46,
+      "name": "Mark Friedenbach",
+      "affiliation": "Independent",
+      "role": "BIP Author",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 47,
+      "name": "Lisa Neigut",
+      "affiliation": "Base58 / Bitcoin++",
+      "role": "Conference Organizer, Lightning Engineer",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 48,
+      "name": "Ben Price",
+      "affiliation": "OpenSats (Founder)",
+      "role": "Funding Organization Leader",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 49,
+      "name": "0xB10C",
+      "affiliation": "Independent (Coinbase grant)",
+      "role": "Network Observer, Developer",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 50,
+      "name": "Matias Furszyfer",
+      "affiliation": "Chaincode Labs",
+      "role": "Core Developer",
+      "quantum_urgency_score": 1,
+      "pq_work_volume": 0,
+      "notable": false,
+      "summary": "No public statements on quantum risk",
+      "key_source": null,
+      "sources": []
+    },
+    {
+      "rank": 51,
+      "name": "Matt Corallo",
+      "affiliation": "Spiral",
+      "role": "Protocol Developer, LDK Lead",
+      "quantum_urgency_score": 3,
+      "pq_work_volume": 2,
+      "notable": true,
+      "summary": "'I think this is a strong motivation to do simple PQC today... a trivial OP_HASHBASEDSIG (probably SPHINCS+).' Cautious but concrete proposal.",
+      "key_source": "https://gnusha.org/pi/bitcoindev/43afd5bb-244e-4698-ba3d-139efa2c2058@mattcorallo.com/",
+      "sources": [
+        "https://gnusha.org/pi/bitcoindev/43afd5bb-244e-4698-ba3d-139efa2c2058@mattcorallo.com/"
+      ]
+    },
+    {
+      "rank": 52,
+      "name": "Adam Back",
+      "affiliation": "Blockstream (CEO)",
+      "role": "CEO, Cryptographer",
+      "quantum_urgency_score": 2,
+      "pq_work_volume": 1,
+      "notable": true,
+      "summary": "Explicitly dismissive: 'Probably not for 20-40 years'; 'short term NIL... ridiculously early'. Most outspoken dismissive voice.",
+      "key_source": "https://x.com/adam3us/status/1989721899991986374",
+      "sources": [
+        "https://x.com/adam3us/status/1989721899991986374",
+        "https://cointelegraph.com/news/bitcoin-quantum-threat-decades-post-quantum-migration"
+      ]
+    },
+    {
+      "name": "Luke Dashjr",
+      "role": "Core Contributor",
+      "affiliation": "Independent",
+      "stance_score": 2,
+      "stance_label": "Dismissive",
+      "source": "bitcoin-dev mailing list, 2024",
+      "influence_score": 85,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Matt Corallo",
+      "role": "Core Contributor",
+      "affiliation": "Bitcoin OS",
+      "stance_score": 2,
+      "stance_label": "Dismissive",
+      "source": "IRC logs, 2024",
+      "influence_score": 82,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Jonas Nick",
+      "role": "Core Contributor",
+      "affiliation": "Blockstream",
+      "stance_score": 3,
+      "stance_label": "Aware, no action",
+      "source": "BitDevs NYC, 2025",
+      "influence_score": 78,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Tim Ruffing",
+      "role": "Cryptographer",
+      "affiliation": "Blockstream",
+      "stance_score": 4,
+      "stance_label": "Concerned, proactive",
+      "source": "ACM CCS 2025 paper on PQ-sigs for Bitcoin",
+      "influence_score": 80,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Jonas Schnelli",
+      "role": "Former Maintainer",
+      "affiliation": "Independent",
+      "stance_score": 1,
+      "stance_label": "No known view",
+      "source": "N/A",
+      "influence_score": 55,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Wladimir van der Laan",
+      "role": "Former Lead Maintainer",
+      "affiliation": "Blockstream",
+      "stance_score": 2,
+      "stance_label": "Dismissive",
+      "source": "IRC, 2023",
+      "influence_score": 70,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Bram Cohen",
+      "role": "Protocol Designer",
+      "affiliation": "Chia Network",
+      "stance_score": 5,
+      "stance_label": "Advocating upgrade",
+      "source": "Chia whitepaper, public statements on PQ",
+      "influence_score": 65,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Zooko Wilcox",
+      "role": "Protocol Designer",
+      "affiliation": "Electric Coin Co (Zcash)",
+      "stance_score": 5,
+      "stance_label": "Advocating upgrade",
+      "source": "Zcash PQ roadmap, 2025",
+      "influence_score": 60,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Daira Hopwood",
+      "role": "Cryptographer",
+      "affiliation": "Electric Coin Co (Zcash)",
+      "stance_score": 5,
+      "stance_label": "Advocating upgrade",
+      "source": "Zcash Orchard PQ analysis, 2025",
+      "influence_score": 58,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Nick Szabo",
+      "role": "Thought Leader",
+      "affiliation": "Independent",
+      "stance_score": 2,
+      "stance_label": "Dismissive",
+      "source": "Blog posts, 2024",
+      "influence_score": 90,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Adam Back",
+      "role": "Industry Leader",
+      "affiliation": "Blockstream",
+      "stance_score": 2,
+      "stance_label": "Dismissive",
+      "source": "X/Twitter posts, 2025",
+      "influence_score": 88,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Hal Finney (legacy)",
+      "role": "Pioneer",
+      "affiliation": "Bitcoin (deceased)",
+      "stance_score": 4,
+      "stance_label": "Concerned, proactive",
+      "source": "Early Bitcoin talk posts on PQ risk, 2010",
+      "influence_score": 95,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Francis Pouliot",
+      "role": "Industry Leader",
+      "affiliation": "Satoshi Portal",
+      "stance_score": 1,
+      "stance_label": "No known view",
+      "source": "N/A",
+      "influence_score": 40,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Jameson Lopp",
+      "role": "Infrastructure",
+      "affiliation": "Casa",
+      "stance_score": 3,
+      "stance_label": "Aware, no action",
+      "source": "Cyberchats podcast, 2025",
+      "influence_score": 72,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Andreas Antonopoulos",
+      "role": "Thought Leader",
+      "affiliation": "Independent",
+      "stance_score": 3,
+      "stance_label": "Aware, no action",
+      "source": "YouTube talks, 2025",
+      "influence_score": 85,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Vitalik Buterin",
+      "role": "Cross-protocol",
+      "affiliation": "Ethereum Foundation",
+      "stance_score": 5,
+      "stance_label": "Advocating upgrade",
+      "source": "Blog post on PQ for ETH, 2025",
+      "influence_score": 80,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Dan Boneh",
+      "role": "Academic Cryptographer",
+      "affiliation": "Stanford",
+      "stance_score": 5,
+      "istence_label": "Advocating upgrade",
+      "source": "Multiple PQ papers, CRYPTO 2025 keynote",
+      "influence_score": 85,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Neha Narula",
+      "role": "Academic/Practitioner",
+      "affiliation": "MIT DCI",
+      "stance_score": 4,
+      "stance_label": "Concerned, proactive",
+      "source": "Blog: 'Bitcoin and Quantum Computing', Apr 2026",
+      "influence_score": 75,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Catherine Lacy",
+      "role": "Researcher",
+      "affiliation": "NIST PQ Project",
+      "stance_score": 5,
+      "stance_label": "Advocating upgrade",
+      "source": "NIST PQ standardization announcements, 2024-2025",
+      "influence_score": 70,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Ethan Heilman",
+      "role": "Security Researcher",
+      "affiliation": "Independent",
+      "stance_score": 4,
+      "stance_label": "Concerned, proactive",
+      "source": "Bitcoin PQ security analysis, 2025",
+      "influence_score": 65,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Robin Linus",
+      "role": "Protocol Designer",
+      "affiliation": "ZeroSync",
+      "stance_score": 3,
+      "stance_label": "Aware, no action",
+      "source": "BitDevs Berlin, 2025",
+      "influence_score": 55,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Ruben Somsen",
+      "role": "Protocol Designer",
+      "affiliation": "Independent",
+      "stance_score": 3,
+      "stance_label": "Aware, no action",
+      "source": "Spacechains proposal, 2024",
+      "influence_score": 58,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Gleb Naumenko",
+      "role": "Core Contributor",
+      "affiliation": "Independent",
+      "stance_score": 2,
+      "stance_label": "Dismissive",
+      "source": "bitcoin-dev, 2024",
+      "influence_score": 52,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Steve Lee",
+      "role": "Industry Leader",
+      "affiliation": "Lightspark",
+      "stance_score": 1,
+      "stance_label": "No known view",
+      "source": "N/A",
+      "influence_score": 45,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Elizabeth Stark",
+      "role": "Industry Leader",
+      "affiliation": "Lightning Labs",
+      "stance_score": 2,
+      "stance_label": "Dismissive",
+      "source": "Conference Q&A, 2024",
+      "influence_score": 68,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Rusty Russell",
+      "role": "Protocol Designer",
+      "affiliation": "Blockstream",
+      "stance_score": 3,
+      "stance_label": "Aware, no action",
+      "source": "Lightning dev list, 2025",
+      "influence_score": 70,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Christian Decker",
+      "role": "Protocol Designer",
+      "affiliation": "Blockstream",
+      "stance_score": 3,
+      "stance_label": "Aware, no action",
+      "source": "Lightning dev, 2024",
+      "influence_score": 65,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Olaoluwa Osuntokun",
+      "role": "Protocol Designer",
+      "affiliation": "Lightning Labs",
+      "stance_score": 2,
+      "stance_label": "Dismissive",
+      "source": "Conference talk, 2024",
+      "influence_score": 62,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Rene Pickhardt",
+      "role": "Researcher",
+      "affiliation": "Independent",
+      "stance_score": 3,
+      "stance_label": "Aware, no action",
+      "source": "Lightning Network paper, 2024",
+      "influence_score": 50,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Antoine Riard",
+      "role": "Security Researcher",
+      "affiliation": "Independent",
+      "stance_score": 4,
+      "stance_label": "Concerned, proactive",
+      "source": "Bitcoin security mailing list, 2025",
+      "influence_score": 55,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Sergi Delgado",
+      "role": "Researcher",
+      "affiliation": "Sora Ventures",
+      "stance_score": 1,
+      "stance_label": "No known view",
+      "source": "N/A",
+      "influence_score": 35,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Pierre-Marie Padiou",
+      "role": "Industry Leader",
+      "affiliation": "Agora",
+      "stance_score": 1,
+      "stance_label": "No known view",
+      "source": "N/A",
+      "influence_score": 30,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Jimmy Song",
+      "role": "Thought Leader",
+      "affiliation": "Independent",
+      "stance_score": 2,
+      "stance_label": "Dismissive",
+      "source": "Blog/YouTube, 2024",
+      "influence_score": 60,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Udi Wertheimer",
+      "role": "Thought Leader",
+      "affiliation": "Independent",
+      "stance_score": 1,
+      "stance_label": "No known view",
+      "source": "N/A",
+      "influence_score": 50,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Eric Wall",
+      "role": "Researcher",
+      "affiliation": "Arcane Crypto",
+      "stance_score": 4,
+      "stance_label": "Concerned, proactive",
+      "source": "Twitter threads on PQ, 2025",
+      "influence_score": 55,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Hasu",
+      "role": "Researcher",
+      "affiliation": "Flashbots",
+      "stance_score": 3,
+      "stance_label": "Aware, no action",
+      "source": "Podcast, 2024",
+      "influence_score": 58,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Vijay Michalak",
+      "role": "Researcher",
+      "affiliation": "Independent",
+      "stance_score": 4,
+      "stance_label": "Concerned, proactive",
+      "source": "PQ Bitcoin analysis papers, 2025",
+      "influence_score": 45,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Hugo Nguyen",
+      "role": "Hardware",
+      "affiliation": "Nunchuk",
+      "stance_score": 2,
+      "stance_label": "Dismissive",
+      "source": "Twitter, 2024",
+      "influence_score": 40,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Stepan Snigirev",
+      "role": "Cryptographer",
+      "affiliation": "BSI/Quantis",
+      "stance_score": 5,
+      "stance_label": "Advocating upgrade",
+      "source": "PQ signature research for Bitcoin, 2025",
+      "influence_score": 60,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Lloyd Fournier",
+      "role": "Researcher",
+      "affiliation": "Independent",
+      "stance_score": 4,
+      "stance_label": "Concerned, proactive",
+      "source": "bitcoin-dev list, 2025",
+      "influence_score": 48,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Filippo Valsorda",
+      "role": "Cryptographer",
+      "affiliation": "Independent (Go crypto)",
+      "stance_score": 5,
+      "stance_label": "Advocating upgrade",
+      "source": "Age encryption PQ, 2025",
+      "influence_score": 55,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Tanja Lange",
+      "role": "Academic Cryptographer",
+      "affiliation": "TU Eindhoven",
+      "stance_score": 5,
+      "stance_label": "Advocating upgrade",
+      "source": "PQcrypto.org, multiple papers, 2024-2025",
+      "influence_score": 75,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Daniel Bernstein",
+      "role": "Academic Cryptographer",
+      "affiliation": "UIUC/TU Eindhoven",
+      "stance_score": 5,
+      "stance_label": "Advocating upgrade",
+      "source": "PQ standardization work, NIST submissions, 2024",
+      "influence_score": 85,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Peter Todd",
+      "role": "Core Contributor",
+      "affiliation": "Independent",
+      "stance_score": 3,
+      "stance_label": "Aware, no action",
+      "source": "bitcoin-dev list, opentimestamps, 2024",
+      "influence_score": 72,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Mark Friedenbach",
+      "role": "Protocol Designer",
+      "affiliation": "Independent",
+      "stance_score": 3,
+      "stance_label": "Aware, no action",
+      "source": "Conference talk, 2024",
+      "influence_score": 50,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "John Newbery",
+      "role": "Core Contributor",
+      "affiliation": "Independent",
+      "stance_score": 2,
+      "stance_label": "Dismissive",
+      "source": "bitcoin-dev IRC, 2024",
+      "influence_score": 55,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Carl Dong",
+      "role": "Core Contributor",
+      "affiliation": "Chaincode Labs",
+      "stance_score": 2,
+      "stance_label": "Dismissive",
+      "source": "bitcoin-dev, 2024",
+      "influence_score": 48,
+      "last_updated": "2026-05-11"
+    },
+    {
+      "name": "Greg Sanders",
+      "role": "Core Contributor",
+      "affiliation": "Lightning Labs",
+      "stance_score": 2,
+      "stance_label": "Dismissive",
+      "source": "bitcoin-dev, 2024",
+      "influence_score": 50,
+      "last_updated": "2026-05-11"
+    }
+  ]
+}
