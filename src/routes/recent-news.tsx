@@ -14,11 +14,13 @@ import {
   ModalCloseButton,
   ModalContent,
   Text,
+  Spinner,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
 import { KVNamespaceListKey, KVNamespaceListResult } from '@cloudflare/workers-types';
 import { InscriptionMeta, OrdinalNews } from '../../lib/api-types';
+import { countWordsAndEstimateReadingTime } from '../helpers';
 import { Link } from 'react-router-dom';
 import Footer from '../components/footer';
 import HelmetSeo from '../components/helmet-seo';
@@ -51,7 +53,8 @@ async function getNewsData(id: string) {
 function NewsItem(props: InscriptionMeta & OrdinalNews) {
   const oneBtcAuthors = ['1btc.news (@1btcnews)', '1btc.chat'];
   let verifiedAuthor = false;
-  const { number, timestamp, title, author } = props;
+  const { number, timestamp, title, author, body, url } = props;
+  const stats = body ? countWordsAndEstimateReadingTime(body) : undefined;
   if (author && oneBtcAuthors.includes(author)) {
     verifiedAuthor = true;
   }
@@ -86,6 +89,18 @@ function NewsItem(props: InscriptionMeta & OrdinalNews) {
         </Text>
         <Text>•</Text>
         <Text>Inscription # {number.toLocaleString()}</Text>
+        {stats && stats.wordCount > 0 && (
+          <>
+            <Text>•</Text>
+            <Text>{stats.readingTime.toLocaleString()} min read</Text>
+          </>
+        )}
+        {url && (
+          <>
+            <Text>•</Text>
+            <Badge colorScheme="orange">link</Badge>
+          </>
+        )}
       </HStack>
       <Divider />
     </VStack>
@@ -115,30 +130,41 @@ export default function RecentNews() {
   }, []);
 
   useEffect(() => {
-    if (newsList && newsList.length > 0) {
-      const processedNewsIds = new Set();
-      for (const newsId of newsList) {
-        if (!processedNewsIds.has(newsId)) {
-          processedNewsIds.add(newsId);
-          getNewsData(newsId)
-            .then(data => {
-              if (data) {
-                setNewsData(prev => {
-                  if (prev) {
-                    return [...prev, data];
-                  }
-                  return [data];
-                });
-              }
-              setLoading(false);
-            })
-            .catch(err => {
-              console.log(`getNewsData: ${err}`);
-              setLoading(false);
-            });
-        }
-      }
+    if (!newsList) return;
+
+    if (newsList.length === 0) {
+      setNewsData([]);
+      setLoading(false);
+      return;
     }
+
+    const uniqueNewsIds = Array.from(new Set(newsList));
+    let isCurrent = true;
+
+    setLoading(true);
+    Promise.allSettled(uniqueNewsIds.map(newsId => getNewsData(newsId)))
+      .then(results => {
+        if (!isCurrent) return;
+
+        const loadedNews = results
+          .filter((result): result is PromiseFulfilledResult<InscriptionMeta & OrdinalNews> => {
+            return result.status === 'fulfilled' && result.value !== undefined;
+          })
+          .map(result => result.value);
+
+        setNewsData(loadedNews);
+        setLoading(false);
+      })
+      .catch(err => {
+        if (!isCurrent) return;
+        console.log(`getNewsData: ${err}`);
+        setNewsData(undefined);
+        setLoading(false);
+      });
+
+    return () => {
+      isCurrent = false;
+    };
   }, [newsList]);
 
   if (loading) {
@@ -158,12 +184,13 @@ export default function RecentNews() {
           src="/logos/1btc-news-black.svg"
           boxSize="250px"
         />
-        <Text>Loading...</Text>
+        <Spinner size="lg" color="var(--1btc-news-colors-brand-orange)" />
+        <Text pt={4}>Loading latest inscriptions...</Text>
       </Box>
     );
   }
 
-  if (!newsList || !newsData) {
+  if (!newsList || newsData === undefined) {
     return (
       <Box
         display="flex"
@@ -180,7 +207,32 @@ export default function RecentNews() {
           src="/logos/1btc-news-black.svg"
           boxSize="250px"
         />
-        <Text>Failed to load news.</Text>
+        <Heading size="lg">Failed to load news.</Heading>
+        <Text>Please refresh to try again.</Text>
+      </Box>
+    );
+  }
+
+
+  if (newsData.length === 0) {
+    return (
+      <Box
+        display="flex"
+        flexDir="column"
+        alignItems="center"
+        justifyContent="center"
+        textAlign="center"
+        w="100%"
+        minH="100vh"
+        py={8}
+        px={4}
+      >
+        <Image
+          src="/logos/1btc-news-black.svg"
+          boxSize="250px"
+        />
+        <Heading size="lg">No news inscriptions yet.</Heading>
+        <Text pt={2}>Check back soon for the latest posts on the ledger of record.</Text>
       </Box>
     );
   }

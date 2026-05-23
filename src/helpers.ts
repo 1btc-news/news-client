@@ -1,16 +1,14 @@
 export function countWords(str: string): number {
   const trimmed = str.trim();
-  const words = trimmed.split(/\s+/);
-  return words.length;
+  if (!trimmed) return 0;
+  return trimmed.split(/\s+/).length;
 }
 
 export function countWordsAndEstimateReadingTime(
   str: string,
   wordsPerMinute: number = 200
 ): { wordCount: number; readingTime: number } {
-  const trimmed = str.trim();
-  const words = trimmed.split(/\s+/);
-  const wordCount = words.length;
-  const readingTime = Math.ceil(wordCount / wordsPerMinute);
+  const wordCount = countWords(str);
+  const readingTime = wordCount === 0 ? 0 : Math.ceil(wordCount / wordsPerMinute);
   return { wordCount, readingTime };
 }
