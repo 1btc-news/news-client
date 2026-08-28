@@ -1,27 +1,48 @@
-import '@fontsource/open-sans';
-import { ChakraProvider } from '@chakra-ui/react';
+﻿import '@fontsource/open-sans';
+import { ChakraProvider, Center, Spinner } from '@chakra-ui/react';
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Fonts from './components/fonts';
 import theme from './style/theme';
 import './style/news.css';
-import Root404 from './routes/root-404';
-import PostNews from './routes/post-news';
-import ViewNews from './routes/view-news';
-import RecentNews from './routes/recent-news';
+
+const Root404 = lazy(() => import('./routes/root-404'));
+const PostNews = lazy(() => import('./routes/post-news'));
+const ViewNews = lazy(() => import('./routes/view-news'));
+const RecentNews = lazy(() => import('./routes/recent-news'));
+
+function RouteFallback() {
+  return (
+    <Center minH="100vh">
+      <Spinner
+        size="xl"
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.700"
+        color="orange.400"
+        aria-label="Loading page"
+      />
+    </Center>
+  );
+}
+
+function withSuspense(element: JSX.Element) {
+  return <Suspense fallback={<RouteFallback />}>{element}</Suspense>;
+}
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <RecentNews />,
-    errorElement: <Root404 />,
+    element: withSuspense(<RecentNews />),
+    errorElement: withSuspense(<Root404 />),
   },
   {
     path: '/post-news',
-    element: <PostNews />,
+    element: withSuspense(<PostNews />),
   },
   {
     path: '/view-news',
-    element: <ViewNews />,
+    element: withSuspense(<ViewNews />),
   },
 ]);
 
