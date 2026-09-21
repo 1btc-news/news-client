@@ -1,64 +1,33 @@
-// returned from api.hiro.so
-export type HiroApiResponse = {
-  limit: number;
-  offset: number;
-  total: number;
-  results: HiroApiInscription[];
-};
+/**
+ * Types for the Quantum Visualizer data source.
+ *
+ * The data is served from:
+ * https://quantum-power-map.p-d07.workers.dev/data.json
+ *
+ * Example payload:
+ * {
+ *   "readinessIndex": 23,
+ *   "developers": [
+ *     { "name": "Satoshi Nakamoto", "score": 95, "position": "Core Maintainer" },
+ *     ...
+ *   ]
+ * }
+ */
 
-export type HiroApiInscription = {
-  id: string;
-  number: number;
-  address: string;
-  genesis_address: string;
-  genesis_block_height: number;
-  genesis_block_hash: string;
-  genesis_tx_id: string;
-  genesis_fee: string;
-  genesis_timestamp: number;
-  tx_id: string;
-  location: string;
-  output: string;
-  value: string;
-  offset: string;
-  sat_ordinal: string;
-  sat_rarity: string;
-  sat_coinbase_height: number;
-  mime_type: string;
-  content_type: string;
-  content_length: number;
-  timestamp: number;
-};
+export interface QuantumDeveloper {
+  /** Full name or handle of the developer */
+  name: string;
+  /** Numerical score (0‑100) representing quantum‑risk awareness */
+  score: number;
+  /** Optional public position / comment on quantum‑resistance */
+  position?: string;
+  /** Optional URL to a source (tweet, blog, etc.) */
+  sourceUrl?: string;
+}
 
-// metadata for inscription stored in KV
-export type InscriptionMeta = {
-  // inscription
-  id: string;
-  number: number;
-  address: string;
-  content_type: string;
-  content_length: number;
-  genesis_block_height: number; // "genesis height" | genesis_block_height
-  genesis_tx_id: string; // 'genesis transaction' | genesis_tx_id
-  timestamp: string; // timestamp in both, but string vs date
-  // news standard
-  last_updated: string;
-  news_number?: number;
-  news_author?: string;
-};
-
-export type InscriptionContent = {
-  content: Response;
-};
-
-// defining the news standard in TS
-export type OrdinalNews = {
-  p: string;
-  op: string;
-  title: string;
-  url?: string;
-  body?: string;
-  author?: string;
-  authorAddress?: string;
-  signature?: string;
-};
+export interface QuantumData {
+  /** Bitcoin Quantum Readiness Index (0‑100) */
+  readinessIndex: number;
+  /** List of developers ranked by their quantum‑risk score */
+  developers: QuantumDeveloper[];
+}
