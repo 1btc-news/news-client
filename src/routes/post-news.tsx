@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   Alert,
   AlertDescription,
@@ -40,6 +41,50 @@ export default function PostNews() {
   const [finalPost, setFinalPost] = useControllableState({ defaultValue: '' });
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+
+  const [feeRate, setFeeRate] = useState<number>(10);
+  const [btcPrice, setBtcPrice] = useState<number | null>(null);
+
+  useEffect(() => {
+    async function fetchRecommendedFees() {
+      try {
+        const feeRes = await fetch('https://mempool.space/api/v1/fees/recommended');
+        if (feeRes.ok) {
+          const fees = await feeRes.json();
+          if (fees && typeof fees.halfHourFee === 'number') {
+            setFeeRate(fees.halfHourFee);
+            return;
+          }
+        }
+      } catch {
+        // Fallback endpoint if mempool.space is unreachable
+        try {
+          const fallbackRes = await fetch('https://bitcoinsapi.com/api/v1/compat/mempool/fees/recommended');
+          if (fallbackRes.ok) {
+            const fallbackFees = await fallbackRes.json();
+            if (fallbackFees && typeof fallbackFees.halfHourFee === 'number') {
+              setFeeRate(fallbackFees.halfHourFee);
+            }
+          }
+        } catch {
+          // Default to 10 sat/vB
+        }
+      }
+
+      try {
+        const priceRes = await fetch('https://mempool.space/api/v1/prices');
+        if (priceRes.ok) {
+          const prices = await priceRes.json();
+          if (prices && typeof prices.USD === 'number') {
+            setBtcPrice(prices.USD);
+          }
+        }
+      } catch {
+        // Price display is optional
+      }
+    }
+    fetchRecommendedFees();
+  }, []);
 
   const copyText = () => {
     if (!finalPost || finalPost.length === 0) {
@@ -108,6 +153,22 @@ export default function PostNews() {
 
     onOpen();
   };
+
+  // Cost calculation based on content size and current network fee rate
+  const currentPostObject = {
+    p: 'ons',
+    op: 'post',
+    title,
+    ...(url.length > 0 && { url }),
+    ...(author.length > 0 && { author }),
+    ...(body.length > 0 && { body }),
+  };
+  const jsonString = JSON.stringify(currentPostObject);
+  const contentBytes = title.length > 0 ? new TextEncoder().encode(jsonString).length : 0;
+  const estimatedVBytes = contentBytes > 0 ? Math.ceil(contentBytes / 4) + 150 : 0;
+  const estimatedSats = estimatedVBytes * feeRate;
+  const estimatedUsd =
+    btcPrice && estimatedSats > 0 ? ((estimatedSats / 100_000_000) * btcPrice).toFixed(2) : null;
 
   return (
     <>
@@ -189,6 +250,26 @@ export default function PostNews() {
                 onChange={e => setBody(e.target.value.trim())}
               />
             </FormControl>
+
+            {contentBytes > 0 && (
+              <Box
+                p={4}
+                bg={useColorModeValue('orange.50', 'gray.800')}
+                border="1px"
+                borderColor={useColorModeValue('orange.200', 'orange.700')}
+                borderRadius="xl"
+                fontSize="sm"
+              >
+                <Text fontWeight="semibold" color={useColorModeValue('orange.800', 'orange.200')}>
+                  Estimated cost: ~{estimatedSats.toLocaleString()} sats
+                  {estimatedUsd ? ` ($${estimatedUsd})` : ''}
+                </Text>
+                <Text fontSize="xs" color="gray.500" mt={1}>
+                  Based on: {contentBytes} bytes (~{estimatedVBytes} vB) @ {feeRate} sat/vB
+                </Text>
+              </Box>
+            )}
+
             <Stack
               spacing={10}
               pt={2}
@@ -233,6 +314,26 @@ export default function PostNews() {
                 mb={6}
                 children={finalPost}
               ></Code>
+
+              {estimatedSats > 0 && (
+                <Box
+                  p={3}
+                  mb={4}
+                  bg={useColorModeValue('orange.50', 'gray.800')}
+                  borderRadius="xl"
+                  border="1px"
+                  borderColor={useColorModeValue('orange.200', 'orange.700')}
+                >
+                  <Text fontSize="sm" fontWeight="semibold">
+                    Estimated Inscription Cost: ~{estimatedSats.toLocaleString()} sats
+                    {estimatedUsd ? ` ($${estimatedUsd})` : ''}
+                  </Text>
+                  <Text fontSize="xs" color="gray.500">
+                    Calculated for {contentBytes} bytes at recommended feerate of {feeRate} sat/vB.
+                  </Text>
+                </Box>
+              )}
+
               <Box
                 display="flex"
                 flexDir={['column-reverse', 'row']}
