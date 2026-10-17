@@ -1,11 +1,15 @@
 import {
   Box,
+  Button,
+  ButtonGroup,
   Container,
   Divider,
   Heading,
+  HStack,
   Image,
   Link as ChakraLink,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -53,6 +57,7 @@ export default function ViewNews() {
   const [data, setData] = useState<(InscriptionMeta & OrdinalNews) | undefined>(undefined);
   const [news, setNews] = useState<OrdinalNews | undefined>(undefined);
   const [stats, setStats] = useState<NewsStats | undefined>(undefined);
+  const toast = useToast();
 
   useEffect(() => {
     if (id) {
@@ -83,6 +88,40 @@ export default function ViewNews() {
       setStats(countWordsAndEstimateReadingTime(news.body));
     }
   }, [news]);
+
+  const copyShareLink = () => {
+    const shareUrl = window.location.href;
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      toast({
+        title: 'Link copied to clipboard',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        variant: 'left-accent',
+      });
+    }).catch(() => {
+      toast({
+        title: 'Unable to copy link',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        variant: 'left-accent',
+      });
+    });
+  };
+
+  const handleNativeShare = () => {
+    if (navigator.share && news) {
+      navigator.share({
+        title: news.title,
+        url: window.location.href,
+      }).catch(() => {
+        // User cancelled or share failed
+      });
+    } else {
+      copyShareLink();
+    }
+  };
 
   if (!id) {
     return (
@@ -161,6 +200,8 @@ export default function ViewNews() {
     );
   }
 
+  const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(news.title)}&url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`;
+
   return (
     <Container
       display="flex"
@@ -194,16 +235,40 @@ export default function ViewNews() {
           news.title
         )}
       </Heading>
-      <Text>
-        {news.author && <Text as="b">{`${news.author} • `}</Text>}
-        {new Date(data.timestamp).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        })}
-        {stats &&
-          ` • ${stats.wordCount.toLocaleString()} words • ${stats.readingTime.toLocaleString()} min read`}
-      </Text>
+      <HStack
+        justifyContent="space-between"
+        flexWrap="wrap"
+        gap={2}
+        mb={3}
+      >
+        <Text color="gray.600">
+          {news.author && <Text as="b">{`${news.author} • `}</Text>}
+          {new Date(data.timestamp).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+          {stats &&
+            ` • ${stats.wordCount.toLocaleString()} words • ${stats.readingTime.toLocaleString()} min read`}
+        </Text>
+        <ButtonGroup size="sm" variant="outline" spacing={2}>
+          <Button onClick={copyShareLink} borderRadius="lg">
+            🔗 Copy Link
+          </Button>
+          <Button onClick={handleNativeShare} borderRadius="lg">
+            📤 Share
+          </Button>
+          <Button
+            as={ChakraLink}
+            href={tweetUrl}
+            isExternal
+            borderRadius="lg"
+            _hover={{ textDecoration: 'none' }}
+          >
+            Post to 𝕏
+          </Button>
+        </ButtonGroup>
+      </HStack>
       {news.body && (
         <>
           <Divider
