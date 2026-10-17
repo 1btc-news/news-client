@@ -8,22 +8,27 @@ import {
   Heading,
   HStack,
   Image,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
   Modal,
   ModalOverlay,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   Text,
+  useColorModeValue,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
 import { KVNamespaceListKey, KVNamespaceListResult } from '@cloudflare/workers-types';
+import { matchSorter } from 'match-sorter';
 import { InscriptionMeta, OrdinalNews } from '../../lib/api-types';
 import { Link } from 'react-router-dom';
 import Footer from '../components/footer';
 import HelmetSeo from '../components/helmet-seo';
 import SignupForm from '../components/signup-form';
-import BitcoinIcon from '../components/bitcoin-icon';
 import OneBtcIcon from '../components/1btc-icon';
 
 const apiUrl = new URL('https://inscribe.news/');
@@ -98,6 +103,7 @@ export default function RecentNews() {
   const [newsData, setNewsData] = useState<(InscriptionMeta & OrdinalNews)[] | undefined>(
     undefined
   );
+  const [searchQuery, setSearchQuery] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
@@ -185,6 +191,18 @@ export default function RecentNews() {
     );
   }
 
+  const sortedNews = [...newsData].sort((a, b) => {
+    const dateA = new Date(a.timestamp);
+    const dateB = new Date(b.timestamp);
+    return dateB.getTime() - dateA.getTime();
+  });
+
+  const filteredNews = searchQuery.trim()
+    ? matchSorter(sortedNews, searchQuery.trim(), {
+        keys: ['title', 'author', item => String(item.number)],
+      })
+    : sortedNews;
+
   return (
     <Box
       display="flex"
@@ -228,18 +246,64 @@ export default function RecentNews() {
           Join waitlist
         </Button>
       </Flex>
-      {newsData
-        .sort((a, b) => {
-          const dateA = new Date(a.timestamp);
-          const dateB = new Date(b.timestamp);
-          return dateB.getTime() - dateA.getTime();
-        })
-        .map((news, i) => (
+
+      <Box
+        w="100%"
+        maxW={1200}
+        mb={6}
+      >
+        <InputGroup size="lg">
+          <InputLeftElement
+            pointerEvents="none"
+            color="gray.400"
+            fontSize="1.1em"
+          >
+            🔍
+          </InputLeftElement>
+          <Input
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            placeholder="Search news by headline, author, or inscription #..."
+            borderRadius="xl"
+            bg={useColorModeValue('white', 'gray.800')}
+          />
+          {searchQuery && (
+            <InputRightElement>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => setSearchQuery('')}
+              >
+                ✕
+              </Button>
+            </InputRightElement>
+          )}
+        </InputGroup>
+      </Box>
+
+      {filteredNews.length === 0 ? (
+        <Box
+          py={12}
+          textAlign="center"
+          w="100%"
+          maxW={1200}
+        >
+          <Text
+            fontSize="lg"
+            color="gray.500"
+          >
+            No articles found matching "{searchQuery}"
+          </Text>
+        </Box>
+      ) : (
+        filteredNews.map((news, i) => (
           <NewsItem
             key={i}
             {...news}
           />
-        ))}
+        ))
+      )}
+
       <Footer />
       <Modal
         allowPinchZoom
