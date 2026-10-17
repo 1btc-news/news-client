@@ -3,27 +3,34 @@ import {
   Badge,
   Box,
   Button,
+  ButtonGroup,
   Divider,
   Flex,
   Heading,
   HStack,
+  IconButton,
   Image,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
   Modal,
   ModalOverlay,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   Text,
+  useColorModeValue,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
 import { KVNamespaceListKey, KVNamespaceListResult } from '@cloudflare/workers-types';
+import { matchSorter } from 'match-sorter';
 import { InscriptionMeta, OrdinalNews } from '../../lib/api-types';
 import { Link } from 'react-router-dom';
 import Footer from '../components/footer';
 import HelmetSeo from '../components/helmet-seo';
 import SignupForm from '../components/signup-form';
-import BitcoinIcon from '../components/bitcoin-icon';
 import OneBtcIcon from '../components/1btc-icon';
 
 const apiUrl = new URL('https://inscribe.news/');
@@ -48,10 +55,15 @@ async function getNewsData(id: string) {
   return undefined;
 }
 
-function NewsItem(props: InscriptionMeta & OrdinalNews) {
+interface NewsItemProps extends InscriptionMeta, OrdinalNews {
+  isStarred: boolean;
+  onToggleStar: (num: number) => void;
+}
+
+function NewsItem(props: NewsItemProps) {
   const oneBtcAuthors = ['1btc.news (@1btcnews)', '1btc.chat'];
   let verifiedAuthor = false;
-  const { number, timestamp, title, author } = props;
+  const { number, timestamp, title, author, isStarred, onToggleStar } = props;
   if (author && oneBtcAuthors.includes(author)) {
     verifiedAuthor = true;
   }
@@ -62,17 +74,35 @@ function NewsItem(props: InscriptionMeta & OrdinalNews) {
       maxW={1200}
       py={4}
     >
-      <Heading
-        size="md"
-        textAlign="left"
+      <Flex
+        justifyContent="space-between"
+        alignItems="flex-start"
+        w="100%"
+        gap={4}
       >
-        <Link
-          className="link-wrap-hack"
-          to={`/view-news?id=${number}`}
+        <Heading
+          size="md"
+          textAlign="left"
         >
-          {title}
-        </Link>
-      </Heading>
+          <Link
+            className="link-wrap-hack"
+            to={`/view-news?id=${number}`}
+          >
+            {title}
+          </Link>
+        </Heading>
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={() => onToggleStar(number)}
+          title={isStarred ? 'Remove from favorites' : 'Star this article'}
+          fontSize="1.2em"
+          color={isStarred ? 'yellow.400' : 'gray.400'}
+          _hover={{ color: 'yellow.500' }}
+        >
+          {isStarred ? '★' : '☆'}
+        </Button>
+      </Flex>
       <HStack flexWrap="wrap">
         <Text as="b">{author ? author : 'anonymous'}</Text>
         {verifiedAuthor && <OneBtcIcon />}
@@ -98,7 +128,35 @@ export default function RecentNews() {
   const [newsData, setNewsData] = useState<(InscriptionMeta & OrdinalNews)[] | undefined>(
     undefined
   );
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterMode, setFilterMode] = useState<'all' | 'starred'>('all');
+  const [starredIds, setStarredIds] = useState<Set<number>>(() => {
+    try {
+      const saved = localStorage.getItem('1btc_starred_news');
+      return saved ? new Set(JSON.parse(saved)) : new Set();
+    } catch {
+      return new Set();
+    }
+  });
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const toggleStar = (num: number) => {
+    setStarredIds(prev => {
+      const next = new Set(prev);
+      if (next.has(num)) {
+        next.delete(num);
+      } else {
+        next.add(num);
+      }
+      try {
+        localStorage.setItem('1btc_starred_news', JSON.stringify(Array.from(next)));
+      } catch {
+        // localStorage full or unavailable
+      }
+      return next;
+    });
+  };
 
   useEffect(() => {
     getRecentNews()
@@ -185,6 +243,22 @@ export default function RecentNews() {
     );
   }
 
+  const sortedNews = [...newsData].sort((a, b) => {
+    const dateA = new Date(a.timestamp);
+    const dateB = new Date(b.timestamp);
+    return dateB.getTime() - dateA.getTime();
+  });
+
+  const baseNews = filterMode === 'starred'
+    ? sortedNews.filter(item => starredIds.has(item.number))
+    : sortedNews;
+
+  const filteredNews = searchQuery.trim()
+    ? matchSorter(baseNews, searchQuery.trim(), {
+        keys: ['title', 'author', item => String(item.number)],
+      })
+    : baseNews;
+
   return (
     <Box
       display="flex"
@@ -228,18 +302,88 @@ export default function RecentNews() {
           Join waitlist
         </Button>
       </Flex>
-      {newsData
-        .sort((a, b) => {
-          const dateA = new Date(a.timestamp);
-          const dateB = new Date(b.timestamp);
-          return dateB.getTime() - dateA.getTime();
-        })
-        .map((news, i) => (
+
+      <Flex
+        w="100%"
+        maxW={1200}
+        mb={6}
+        gap={4}
+        flexDir={['column', 'row']}
+        alignItems={['stretch', 'center']}
+      >
+        <InputGroup size="lg" flex={1}>
+          <InputLeftElement
+            pointerEvents="none"
+            color="gray.400"
+            fontSize="1.1em"
+          >
+            🔍
+          </InputLeftElement>
+          <Input
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            placeholder="Search news by headline, author, or inscription #..."
+            borderRadius="xl"
+            bg={useColorModeValue('white', 'gray.800')}
+          />
+          {searchQuery && (
+            <InputRightElement>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => setSearchQuery('')}
+              >
+                ✕
+              </Button>
+            </InputRightElement>
+          )}
+        </InputGroup>
+
+        <ButtonGroup isAttached size="lg">
+          <Button
+            variant={filterMode === 'all' ? 'solid' : 'outline'}
+            onClick={() => setFilterMode('all')}
+            borderRadius="xl"
+          >
+            All
+          </Button>
+          <Button
+            variant={filterMode === 'starred' ? 'solid' : 'outline'}
+            onClick={() => setFilterMode('starred')}
+            borderRadius="xl"
+          >
+            ★ Saved ({starredIds.size})
+          </Button>
+        </ButtonGroup>
+      </Flex>
+
+      {filteredNews.length === 0 ? (
+        <Box
+          py={12}
+          textAlign="center"
+          w="100%"
+          maxW={1200}
+        >
+          <Text
+            fontSize="lg"
+            color="gray.500"
+          >
+            {filterMode === 'starred'
+              ? 'No starred articles yet. Star any story on the feed to save it here.'
+              : `No articles found matching "${searchQuery}"`}
+          </Text>
+        </Box>
+      ) : (
+        filteredNews.map((news, i) => (
           <NewsItem
             key={i}
             {...news}
+            isStarred={starredIds.has(news.number)}
+            onToggleStar={toggleStar}
           />
-        ))}
+        ))
+      )}
+
       <Footer />
       <Modal
         allowPinchZoom
